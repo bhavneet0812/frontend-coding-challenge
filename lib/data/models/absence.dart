@@ -33,6 +33,8 @@ class Absence extends Equatable {
   @override
   List<Object?> get props => [id];
 
+  /// Creates a copy of the Absence instance with optional new values.
+  /// If a value is not provided, the original value is retained.
   Absence copyWith({
     int? id,
     int? userId,
@@ -60,4 +62,49 @@ class Absence extends Equatable {
     createdAt: createdAt ?? this.createdAt,
     type: type ?? this.type,
   );
+
+  /// Creates an Absence instance from a JSON map.
+  static Absence fromJson(Map<String, dynamic> json) {
+    return Absence(
+      id: json['id'],
+      userId: json['userId'],
+      crewId: json['crewId'],
+      type: AbsenceType.values.firstWhere(
+        (e) => e.name == json['type'],
+        orElse: () => AbsenceType.other,
+      ),
+      memberNote: json['memberNote'],
+      admitterId: json['admitterId'],
+      admitterNote: json['admitterNote'],
+      startDate: DateTime.parse(json['startDate']),
+      endDate: DateTime.parse(json['endDate']),
+      confirmedAt:
+          json['confirmedAt'] != null
+              ? DateTime.tryParse(json['confirmedAt'])
+              : null,
+      rejectedAt:
+          json['rejectedAt'] != null
+              ? DateTime.tryParse(json['rejectedAt'])
+              : null,
+      createdAt: DateTime.parse(json['createdAt']),
+    );
+  }
+
+  /// Converts the Absence instance to a JSON map.
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'userId': userId,
+      'crewId': crewId,
+      'type': type.name,
+      'memberNote': memberNote,
+      'admitterId': admitterId,
+      'admitterNote': admitterNote,
+      'startDate': startDate.toIso8601String(),
+      'endDate': endDate.toIso8601String(),
+      'confirmedAt': confirmedAt?.toIso8601String(),
+      'rejectedAt': rejectedAt?.toIso8601String(),
+      'createdAt': createdAt.toIso8601String(),
+    };
+  }
 }

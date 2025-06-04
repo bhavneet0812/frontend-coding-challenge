@@ -18,6 +18,8 @@ class Member extends Equatable {
   @override
   List<Object?> get props => [id];
 
+  /// Creates a copy of the Member instance with optional new values.
+  /// If a value is not provided, the original value is retained.
   Member copyWith({
     int? id,
     int? userId,
@@ -31,4 +33,26 @@ class Member extends Equatable {
     name: name ?? this.name,
     image: image ?? this.image,
   );
+
+  /// Creates a Member instance from a JSON map.
+  static Member fromJson(Map<String, dynamic> json) {
+    return Member(
+      id: json['id'],
+      userId: json['userId'],
+      crewId: json['crewId'],
+      name: json['name'],
+      image: json['image'],
+    );
+  }
+
+  /// Converts the Member instance to a JSON map.
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'userId': userId,
+      'crewId': crewId,
+      'name': name,
+      'image': image,
+    };
+  }
 }
