@@ -2,7 +2,6 @@ import 'package:equatable/equatable.dart';
 import 'package:frontend_coding_challenge/core/extensions/date_extension.dart';
 import 'package:frontend_coding_challenge/data/enums/absence_status.dart';
 import 'package:frontend_coding_challenge/data/enums/absence_type.dart';
-import 'package:intl/intl.dart';
 
 class Absence extends Equatable {
   final int id;
