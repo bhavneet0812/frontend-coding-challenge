@@ -15,7 +15,10 @@ class ApiService {
   /// Throws an exception if the JSON file cannot be loaded or parsed.
   Future<List<Absence>> getAbsences() async {
     final data = await rootBundle.loadString('assets/json_files/absences.json');
-    final jsonResult = await compute(json.decode(data), 'parseAbsencesJson');
+    final jsonResult = await compute(
+      (message) => json.decode(data),
+      'parseAbsencesJson',
+    );
     return (jsonResult['payload'] as List)
         .map((e) => Absence.fromJson(e))
         .toList();
@@ -27,7 +30,10 @@ class ApiService {
   /// Throws an exception if the JSON file cannot be loaded or parsed.
   Future<List<Member>> getMembers() async {
     final data = await rootBundle.loadString('assets/json_files/members.json');
-    final jsonResult = await compute(json.decode(data), 'parseMembersJson');
+    final jsonResult = await compute(
+      (message) => json.decode(data),
+      'parseMembersJson',
+    );
     return (jsonResult['payload'] as List)
         .map((e) => Member.fromJson(e))
         .toList();
