@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:frontend_coding_challenge/data/enums/absence_status.dart';
 import 'package:frontend_coding_challenge/data/enums/absence_type.dart';
+import 'package:intl/intl.dart';
 
 class Absence extends Equatable {
   final int id;
@@ -11,7 +12,9 @@ class Absence extends Equatable {
   final int? admitterId;
   final String admitterNote;
   final DateTime startDate;
+  String get startDateFormatted => DateFormat.yMd().format(startDate);
   final DateTime endDate;
+  String get endDateFormatted => DateFormat.yMd().format(endDate);
   final DateTime? confirmedAt;
   final DateTime? rejectedAt;
   final DateTime createdAt;
