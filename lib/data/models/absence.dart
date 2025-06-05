@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:frontend_coding_challenge/data/enums/absence_status.dart';
 import 'package:frontend_coding_challenge/data/enums/absence_type.dart';
 
 class Absence extends Equatable {
@@ -29,6 +30,20 @@ class Absence extends Equatable {
     this.rejectedAt,
     required this.createdAt,
   });
+
+  /// Returns the status of the absence based on the confirmed and rejected dates.
+  /// /// - If confirmedAt is not null, the status is 'confirmed'.
+  /// - If rejectedAt is not null, the status is 'rejected'.
+  /// - If neither is set, the status is 'pending'.
+  AbsenceStatus get status {
+    if (confirmedAt != null) {
+      return AbsenceStatus.confirmed;
+    } else if (rejectedAt != null) {
+      return AbsenceStatus.rejected;
+    } else {
+      return AbsenceStatus.pending;
+    }
+  }
 
   @override
   List<Object?> get props => [id];
