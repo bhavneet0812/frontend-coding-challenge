@@ -8,6 +8,8 @@ class AbsenceListFilterModel {
   final AbsenceType? type;
   final DateTimeRange? dateRange;
 
+  bool get isEmpty => status == null && type == null && dateRange == null;
+
   const AbsenceListFilterModel({this.status, this.type, this.dateRange});
 
   AbsenceListFilterModel copyWith({
