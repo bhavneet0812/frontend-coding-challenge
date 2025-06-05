@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend_coding_challenge/core/extensions/string_extension.dart';
 import 'package:frontend_coding_challenge/data/models/absence.dart';
 import 'package:frontend_coding_challenge/data/models/member.dart';
 
@@ -15,7 +16,7 @@ class AbsenceCard extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: ListTile(
         leading:
-            member.image?.isNotEmpty == true
+            member.image.isNotEmptyString
                 ? CachedNetworkImage(
                   imageUrl: member.image!,
                   imageBuilder: (_, image) {
@@ -32,7 +33,7 @@ class AbsenceCard extends StatelessWidget {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(member.name),
+            Flexible(child: Text(member.name)),
             Text(
               absence.status.title,
               style: TextStyle(color: absence.status.color, fontSize: 14),
