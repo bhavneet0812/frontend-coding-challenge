@@ -45,12 +45,6 @@ class _DateRangeSelection extends StatelessWidget {
                 },
               );
 
-              // final picked = await showDateRangePicker(
-              //   context: context,
-              //   firstDate: DateTime(2020),
-              //   lastDate: DateTime(2030),
-              //   initialDateRange: initialDateRange,
-              // );
               if (picked != null) {
                 onDateRangeSelected(picked);
               }

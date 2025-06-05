@@ -14,55 +14,81 @@ class AbsenceCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: ListTile(
-        leading:
-            member.image.isNotEmptyString
-                ? CachedNetworkImage(
-                  imageUrl: member.image!,
-                  imageBuilder: (_, image) {
-                    return CircleAvatar(backgroundImage: image);
-                  },
-                  progressIndicatorBuilder: (_, _, dp) {
-                    return CircularProgressIndicator(value: dp.progress);
-                  },
-                  errorWidget: (_, _, _) {
-                    return CircleAvatar(child: Icon(Icons.error));
-                  },
-                )
-                : CircleAvatar(child: Icon(Icons.person)),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(child: Text(member.name)),
-            Text(
-              absence.status.title,
-              style: TextStyle(color: absence.status.color, fontSize: 14),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ListTile(
+            leading:
+                member.image.isNotEmptyString
+                    ? CachedNetworkImage(
+                      imageUrl: member.image!,
+                      imageBuilder: (_, image) {
+                        return CircleAvatar(backgroundImage: image);
+                      },
+                      progressIndicatorBuilder: (_, _, dp) {
+                        return CircularProgressIndicator(value: dp.progress);
+                      },
+                      errorWidget: (_, _, _) {
+                        return CircleAvatar(child: Icon(Icons.error));
+                      },
+                    )
+                    : CircleAvatar(child: Icon(Icons.person)),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(child: Text(member.name)),
+                Text(
+                  absence.status.title,
+                  style: TextStyle(color: absence.status.color, fontSize: 14),
+                ),
+              ],
             ),
-          ],
-        ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text.rich(
-              TextSpan(
-                children: [
-                  TextSpan(text: 'Reason: '),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text.rich(
                   TextSpan(
-                    text: absence.type.title,
-                    style: TextStyle(color: absence.type.color),
+                    children: [
+                      TextSpan(text: 'Reason: '),
+                      TextSpan(
+                        text: absence.type.title,
+                        style: TextStyle(color: absence.type.color),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                Text(
+                  '${absence.startDateFormatted} - ${absence.endDateFormatted}',
+                ),
+              ],
             ),
-            Text(
-              'Period: ${absence.startDateFormatted} - ${absence.endDateFormatted}',
+          ),
+
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20.0, 0, 20.0, 12.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              spacing: 4.0,
+              children: [
+                Text(
+                  absence.memberNote.isNotEmpty
+                      ? 'Member Note: ${absence.memberNote}'
+                      : 'No additional notes from member.',
+                  style: TextStyle(fontSize: 14, color: Colors.grey),
+                  maxLines: 1,
+                ),
+                if (absence.admitterNote.isNotEmpty)
+                  Text(
+                    'Admitter Note: ${absence.admitterNote}',
+                    style: TextStyle(fontSize: 14, color: Colors.grey),
+                    maxLines: 1,
+                  ),
+              ],
             ),
-            if (absence.memberNote.isNotEmpty)
-              Text('Note: ${absence.memberNote}'),
-            if (absence.admitterNote.isNotEmpty)
-              Text('Admitter: ${absence.admitterNote}'),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -3,7 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend_coding_challenge/data/repository/absence_repository.dart';
 import 'package:frontend_coding_challenge/presentation/bloc/absence_list/absence_list_bloc.dart';
 import 'package:frontend_coding_challenge/presentation/widgets/absence_list_filter_button/absence_list_filter_button.dart';
-import '../widgets/absence_card.dart';
+import '../../widgets/absence_card.dart';
+
+part 'responsive_views/absence_list_mobile_view.dart';
+part 'responsive_views/absence_list_tablet_view.dart';
 
 class AbsenceListPage extends StatelessWidget {
   const AbsenceListPage({super.key});
@@ -78,43 +81,13 @@ class _Body extends StatelessWidget {
           return Center(child: Text('No Absences Found'));
         }
 
-        final double viewInsetsBottom =
-            MediaQuery.of(context).viewPadding.bottom;
-
-        return RefreshIndicator.adaptive(
-          onRefresh: () async {
-            context.read<AbsenceListBloc>().add(
-              LoadAbsences(filter: state.filter),
-            );
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            if (constraints.maxWidth >= 600) {
+              return _TabletView(state: state);
+            }
+            return _MobileView(state: state);
           },
-          child: ListView.builder(
-            itemCount:
-                state.hasMore ? state.data.length + 1 : state.data.length,
-            padding: EdgeInsets.only(bottom: viewInsetsBottom),
-            itemBuilder: (context, index) {
-              if (index >= state.data.length) {
-                return Container(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  alignment: Alignment.center,
-                  child: TextButton(
-                    onPressed: () {
-                      context.read<AbsenceListBloc>().add(
-                        LoadAbsences(
-                          filter: state.filter,
-                          currentData: state.data,
-                        ),
-                      );
-                    },
-                    child: Text('Load More'),
-                  ),
-                );
-              }
-              return AbsenceCard(
-                absence: state.data[index].$1,
-                member: state.data[index].$2,
-              );
-            },
-          ),
         );
       default:
         return SizedBox();
