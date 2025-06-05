@@ -9,11 +9,19 @@ abstract class AbsenceListState extends Equatable {
 class AbsenceListLoading extends AbsenceListState {}
 
 class AbsenceListLoaded extends AbsenceListState {
+  final AbsenceListFilterModel filter;
   final List<(Absence, Member)> data;
-  final bool hasMore;
-  const AbsenceListLoaded(this.data, this.hasMore);
+  final int totalCount;
+
+  bool get hasMore => data.length < totalCount;
+
+  const AbsenceListLoaded(
+    this.data, {
+    required this.filter,
+    required this.totalCount,
+  });
   @override
-  List<Object> get props => [data, hasMore];
+  List<Object> get props => [data, filter, totalCount];
 }
 
 class AbsenceListError extends AbsenceListState {

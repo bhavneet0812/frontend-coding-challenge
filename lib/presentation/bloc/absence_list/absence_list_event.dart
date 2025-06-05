@@ -6,6 +6,18 @@ abstract class AbsenceListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadAbsences extends AbsenceListEvent {}
+class LoadAbsences extends AbsenceListEvent {
+  final List<(Absence, Member)> currentData;
 
-class LoadNextAbsencesPage extends AbsenceListEvent {}
+  final AbsenceListFilterModel filter;
+  final int pageSize;
+
+  const LoadAbsences({
+    this.currentData = const [],
+    this.filter = const AbsenceListFilterModel(),
+    this.pageSize = 10,
+  });
+
+  @override
+  List<Object> get props => [filter, pageSize, currentData.length];
+}
