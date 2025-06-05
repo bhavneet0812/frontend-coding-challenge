@@ -13,23 +13,9 @@ class _MobileView extends StatelessWidget {
         context.read<AbsenceListBloc>().add(LoadAbsences(filter: state.filter));
       },
       child: ListView.builder(
-        itemCount: state.hasMore ? state.data.length + 1 : state.data.length,
+        itemCount: state.data.length,
         padding: EdgeInsets.only(bottom: viewInsetsBottom),
         itemBuilder: (context, index) {
-          if (index >= state.data.length) {
-            return Container(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              alignment: Alignment.center,
-              child: TextButton(
-                onPressed: () {
-                  context.read<AbsenceListBloc>().add(
-                    LoadAbsences(filter: state.filter, currentData: state.data),
-                  );
-                },
-                child: Text('Load More'),
-              ),
-            );
-          }
           return AbsenceCard(
             absence: state.data[index].$1,
             member: state.data[index].$2,

@@ -60,6 +60,46 @@ class _Content extends StatelessWidget {
           ],
         ),
         body: _Body(),
+        bottomNavigationBar: BlocBuilder<AbsenceListBloc, AbsenceListState>(
+          builder: (context, state) {
+            if (state is AbsenceListLoading) {
+              return SizedBox.shrink();
+            }
+
+            if (state is AbsenceListLoaded) {
+              if (state.data.isEmpty) {
+                return SizedBox.shrink();
+              }
+
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '${state.data.length} out of ${state.totalCount}',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    if (state.hasMore)
+                      TextButton(
+                        onPressed: () {
+                          context.read<AbsenceListBloc>().add(
+                            LoadAbsences(
+                              filter: state.filter,
+                              currentData: state.data,
+                            ),
+                          );
+                        },
+                        child: Text('Load More'),
+                      ),
+                  ],
+                ),
+              );
+            }
+
+            return SizedBox.shrink();
+          },
+        ),
       ),
     );
   }

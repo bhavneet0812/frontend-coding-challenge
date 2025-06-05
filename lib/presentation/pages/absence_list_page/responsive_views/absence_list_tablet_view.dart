@@ -12,40 +12,21 @@ class _TabletView extends StatelessWidget {
       onRefresh: () async {
         context.read<AbsenceListBloc>().add(LoadAbsences(filter: state.filter));
       },
-      child: Column(
-        children: [
-          Expanded(
-            child: GridView.builder(
-              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                mainAxisExtent: 160,
-                maxCrossAxisExtent: 700,
-                mainAxisSpacing: 8.0,
-                crossAxisSpacing: 8.0,
-              ),
-              itemCount: state.data.length,
-              padding: EdgeInsets.only(bottom: viewInsetsBottom),
-              itemBuilder: (context, index) {
-                return AbsenceCard(
-                  absence: state.data[index].$1,
-                  member: state.data[index].$2,
-                );
-              },
-            ),
-          ),
-          if (state.hasMore)
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              alignment: Alignment.topCenter,
-              child: TextButton(
-                onPressed: () {
-                  context.read<AbsenceListBloc>().add(
-                    LoadAbsences(filter: state.filter, currentData: state.data),
-                  );
-                },
-                child: Text('Load More'),
-              ),
-            ),
-        ],
+      child: GridView.builder(
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          mainAxisExtent: 160,
+          maxCrossAxisExtent: 700,
+          mainAxisSpacing: 8.0,
+          crossAxisSpacing: 8.0,
+        ),
+        itemCount: state.data.length,
+        padding: EdgeInsets.only(bottom: viewInsetsBottom),
+        itemBuilder: (context, index) {
+          return AbsenceCard(
+            absence: state.data[index].$1,
+            member: state.data[index].$2,
+          );
+        },
       ),
     );
   }
