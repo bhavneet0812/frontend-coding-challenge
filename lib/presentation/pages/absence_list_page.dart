@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend_coding_challenge/data/repository/absence_repository.dart';
 import 'package:frontend_coding_challenge/presentation/bloc/absence_list/absence_list_bloc.dart';
-import 'package:frontend_coding_challenge/presentation/widgets/absence_list_filter_button.dart';
+import 'package:frontend_coding_challenge/presentation/widgets/absence_list_filter_button/absence_list_filter_button.dart';
 import '../widgets/absence_card.dart';
 
 class AbsenceListPage extends StatelessWidget {
