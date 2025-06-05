@@ -29,23 +29,6 @@ class ApiService {
     final jsonList = jsonResult['payload'] as List;
     final absences = jsonList.map((e) => Absence.fromJson(e)).toList();
 
-    /// Sort absences based on the provided filter.
-    absences.sort((a, b) {
-      // Sort by date if sort type is date
-      if (filter?.sortType == AbsenceSortType.date) {
-        return b.startDate.compareTo(a.startDate);
-      }
-      // Sort by type if sort type is type
-      else if (filter?.sortType == AbsenceSortType.type) {
-        return a.type.index.compareTo(b.type.index);
-      }
-      // Sort by status if sort type is status
-      else if (filter?.sortType == AbsenceSortType.status) {
-        return a.status.index.compareTo(b.status.index);
-      }
-      return 0; // Default case
-    });
-
     // Apply filter if provided
     if (filter != null) {
       // Filter by absence status
@@ -68,6 +51,24 @@ class ApiService {
               !endDate.isBetween(filter.dateRange!);
         });
       }
+
+      /// Sort absences based on the provided filter.
+      absences.sort((a, b) {
+        // Sort by date if sort type is date
+        final dateSort = b.startDate.compareTo(a.startDate);
+
+        // Sort by type if sort type is type
+        if (filter.sortType == AbsenceSortType.type) {
+          final typeSort = a.type.index.compareTo(b.type.index);
+          return typeSort != 0 ? typeSort : dateSort;
+        }
+        // Sort by status if sort type is status
+        else if (filter.sortType == AbsenceSortType.status) {
+          final statusSort = a.status.index.compareTo(b.status.index);
+          return statusSort != 0 ? statusSort : dateSort;
+        }
+        return 0; // Default case
+      });
     }
 
     return (absences.skip(skip).take(limit).toList(), absences.length);
