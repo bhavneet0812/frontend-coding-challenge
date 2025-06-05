@@ -55,7 +55,7 @@ class AbsenceCard extends StatelessWidget {
               ),
             ),
             Text(
-              'Duration: ${absence.startDateFormatted} - ${absence.endDateFormatted}',
+              'Period: ${absence.startDateFormatted} - ${absence.endDateFormatted}',
             ),
             if (absence.memberNote.isNotEmpty)
               Text('Note: ${absence.memberNote}'),
