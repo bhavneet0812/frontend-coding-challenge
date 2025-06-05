@@ -42,7 +42,17 @@ class AbsenceCard extends StatelessWidget {
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Reason: ${absence.type.title}'),
+            Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(text: 'Reason: '),
+                  TextSpan(
+                    text: absence.type.title,
+                    style: TextStyle(color: absence.type.color),
+                  ),
+                ],
+              ),
+            ),
             Text(
               'Duration: ${absence.startDateFormatted} - ${absence.endDateFormatted}',
             ),
