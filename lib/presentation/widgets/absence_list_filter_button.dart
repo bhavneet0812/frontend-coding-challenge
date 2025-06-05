@@ -126,39 +126,13 @@ class _AbsenceListFilterButtonState extends State<AbsenceListFilterButton> {
               enabled: false,
               child: StatefulBuilder(
                 builder: (context, setInnerState) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ElevatedButton.icon(
-                        onPressed: () async {
-                          final picked = await showDateRangePicker(
-                            context: context,
-                            firstDate: DateTime(2020),
-                            lastDate: DateTime(2030),
-                          );
-                          if (picked != null) {
-                            setInnerState(() {
-                              _filter = _filter.copyWith(
-                                dateRange: picked.asNullable,
-                              );
-                            });
-                          }
-                        },
-                        icon: Icon(Icons.date_range),
-                        label: Text('Select Date Range'),
-                      ),
-                      if (_filter.dateRange != null)
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Text(
-                            'Range: ${_filter.dateRange!.start.MMMdy} → ${_filter.dateRange!.end.MMMdy}',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey[700],
-                            ),
-                          ),
-                        ),
-                    ],
+                  return _DateRangeSelection(
+                    initialDateRange: _filter.dateRange,
+                    onDateRangeSelected: (range) {
+                      setInnerState(() {
+                        _filter = _filter.copyWith(dateRange: range.asNullable);
+                      });
+                    },
                   );
                 },
               ),
@@ -166,43 +140,96 @@ class _AbsenceListFilterButtonState extends State<AbsenceListFilterButton> {
             PopupMenuDivider(),
             PopupMenuItem(
               enabled: false,
-              child: StatefulBuilder(
-                builder: (context, setInnerState) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        spacing: 8.0,
-                        children: [
-                          Expanded(
-                            child: TextButton(
-                              onPressed: () {
-                                setState(() {
-                                  _filter = AbsenceListFilterModel();
-                                });
-                                widget.onFilterChanged(_filter);
-                                Navigator.pop(context);
-                              },
-                              child: Text('Reset'),
-                            ),
-                          ),
-                          Expanded(
-                            child: FilledButton(
-                              onPressed: () {
-                                widget.onFilterChanged(_filter);
-                                Navigator.pop(context);
-                              },
-                              child: Text('Apply'),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  );
+              child: _Actions(
+                onReset: () {
+                  _filter = AbsenceListFilterModel();
+                  widget.onFilterChanged(_filter);
+                  Navigator.pop(context);
+                },
+                onApply: () {
+                  widget.onFilterChanged(_filter);
+                  Navigator.pop(context);
                 },
               ),
             ),
           ],
+    );
+  }
+}
+
+class _DateRangeSelection extends StatelessWidget {
+  final DateTimeRange? initialDateRange;
+  final void Function(DateTimeRange?) onDateRangeSelected;
+
+  const _DateRangeSelection({
+    required this.initialDateRange,
+    required this.onDateRangeSelected,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ElevatedButton.icon(
+          onPressed: () async {
+            final picked = await showDateRangePicker(
+              context: context,
+              firstDate: DateTime(2020),
+              lastDate: DateTime(2030),
+              initialDateRange: initialDateRange,
+            );
+            if (picked != null) {
+              onDateRangeSelected(picked);
+            }
+          },
+          // icon: Icon(Icons.date_range),
+          label: Text(
+            initialDateRange == null
+                ? 'Select Date Range'
+                : '${initialDateRange!.start.MMMdy} → ${initialDateRange!.end.MMMdy}',
+          ),
+        ),
+        if (initialDateRange != null)
+          TextButton(
+            onPressed: () {
+              onDateRangeSelected(null);
+            },
+            child: Text(
+              'Clear Date Range',
+              style: TextStyle(color: Colors.red),
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+/// Actions widget for the filter button
+/// Contains Reset and Apply buttons
+class _Actions extends StatelessWidget {
+  final void Function() onReset;
+  final void Function() onApply;
+
+  const _Actions({required this.onReset, required this.onApply});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          spacing: 8.0,
+          children: [
+            Expanded(
+              child: TextButton(onPressed: onReset, child: Text('Reset')),
+            ),
+            Expanded(
+              child: FilledButton(onPressed: onApply, child: Text('Apply')),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
