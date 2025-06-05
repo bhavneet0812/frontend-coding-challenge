@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:frontend_coding_challenge/core/extensions/date_extension.dart';
 import 'package:frontend_coding_challenge/core/extensions/generic_extension.dart';
 import 'package:frontend_coding_challenge/data/data_models/absence_list_filter_model.dart';
+import 'package:frontend_coding_challenge/data/enums/absence_sort_type.dart';
 import 'package:frontend_coding_challenge/data/enums/absence_status.dart';
 import 'package:frontend_coding_challenge/data/enums/absence_type.dart';
 
+part 'absence_filter_sort_selection.dart';
 part 'absence_filter_type_selection.dart';
 part 'absence_filter_status_selection.dart';
 part 'absence_filter_date_selection.dart';
@@ -50,6 +52,36 @@ class _AbsenceListFilterButtonState extends State<AbsenceListFilterButton> {
       },
       itemBuilder: (context) {
         return [
+          /// Filter options title
+          PopupMenuItem(
+            enabled: false,
+            child: Text(
+              'Sort By',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+                color: Colors.black54,
+              ),
+            ),
+          ),
+
+          /// Sort by selection
+          PopupMenuItem(
+            enabled: false,
+            child: StatefulBuilder(
+              builder: (context, setInnerState) {
+                return _SortSelection(
+                  selectedSortType: _filter.sortType,
+                  onSortTypeSelected: (sortType) {
+                    setInnerState(() {
+                      _filter = _filter.copyWith(sortType: sortType);
+                    });
+                  },
+                );
+              },
+            ),
+          ),
+
           /// Filter options title
           PopupMenuItem(
             enabled: false,

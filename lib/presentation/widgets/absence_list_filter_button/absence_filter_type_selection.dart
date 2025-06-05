@@ -17,11 +17,11 @@ class _TypesSelection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Type'),
+        const Text('Reason'),
         DropdownButton<AbsenceType?>(
           value: selectedType,
           isExpanded: true,
-          hint: Text("Select Type"),
+          hint: Text("Select Reason"),
           onChanged: onTypeSelected,
           items:
               [null, ...AbsenceType.values]

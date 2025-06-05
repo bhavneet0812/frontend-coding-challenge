@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:frontend_coding_challenge/core/extensions/date_extension.dart';
 import 'package:frontend_coding_challenge/data/data_models/absence_list_filter_model.dart';
+import 'package:frontend_coding_challenge/data/enums/absence_sort_type.dart';
 import 'package:frontend_coding_challenge/data/models/absence.dart';
 import 'package:frontend_coding_challenge/data/models/member.dart';
 
@@ -27,6 +28,24 @@ class ApiService {
     );
     final jsonList = jsonResult['payload'] as List;
     final absences = jsonList.map((e) => Absence.fromJson(e)).toList();
+
+    /// Sort absences based on the provided filter.
+    absences.sort((a, b) {
+      // Sort by date if sort type is date
+      if (filter?.sortType == AbsenceSortType.date) {
+        return b.startDate.compareTo(a.startDate);
+      }
+      // Sort by type if sort type is type
+      else if (filter?.sortType == AbsenceSortType.type) {
+        return a.type.index.compareTo(b.type.index);
+      }
+      // Sort by status if sort type is status
+      else if (filter?.sortType == AbsenceSortType.status) {
+        return a.status.index.compareTo(b.status.index);
+      }
+      return 0; // Default case
+    });
+
     // Apply filter if provided
     if (filter != null) {
       // Filter by absence status
