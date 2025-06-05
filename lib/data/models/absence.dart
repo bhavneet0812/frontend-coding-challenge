@@ -12,9 +12,9 @@ class Absence extends Equatable {
   final int? admitterId;
   final String admitterNote;
   final DateTime startDate;
-  String get startDateFormatted => DateFormat.yMd().format(startDate);
+  String get startDateFormatted => DateFormat.yMMMd().format(startDate);
   final DateTime endDate;
-  String get endDateFormatted => DateFormat.yMd().format(endDate);
+  String get endDateFormatted => DateFormat.yMMMd().format(endDate);
   final DateTime? confirmedAt;
   final DateTime? rejectedAt;
   final DateTime createdAt;

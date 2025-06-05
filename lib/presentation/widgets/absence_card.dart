@@ -29,19 +29,27 @@ class AbsenceCard extends StatelessWidget {
                   },
                 )
                 : CircleAvatar(child: Icon(Icons.person)),
-        title: Text(member.name),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(member.name),
+            Text(
+              absence.status.title,
+              style: TextStyle(color: absence.status.color, fontSize: 14),
+            ),
+          ],
+        ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Type: ${absence.type.title}'),
+            Text('Reason: ${absence.type.title}'),
             Text(
-              'Period: ${absence.startDateFormatted} - ${absence.endDateFormatted}',
+              'Duration: ${absence.startDateFormatted} - ${absence.endDateFormatted}',
             ),
             if (absence.memberNote.isNotEmpty)
               Text('Note: ${absence.memberNote}'),
             if (absence.admitterNote.isNotEmpty)
               Text('Admitter: ${absence.admitterNote}'),
-            Text('Status: ${absence.status.title}'),
           ],
         ),
       ),
