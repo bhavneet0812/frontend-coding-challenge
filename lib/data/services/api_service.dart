@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:frontend_coding_challenge/core/extensions/date_extension.dart';
 import 'package:frontend_coding_challenge/data/data_models/absence_list_filter_model.dart';
 import 'package:frontend_coding_challenge/data/models/absence.dart';
 import 'package:frontend_coding_challenge/data/models/member.dart';
@@ -43,11 +44,9 @@ class ApiService {
         absences.removeWhere((absence) {
           final startDate = absence.startDate;
           final endDate = absence.endDate;
-          final filterStartDate = filter.dateRange!.start;
-          final filterEndDate = filter.dateRange!.end;
 
-          return !(startDate.isAfter(filterEndDate) ||
-              endDate.isBefore(filterStartDate));
+          return !startDate.isBetween(filter.dateRange!) &&
+              !endDate.isBetween(filter.dateRange!);
         });
       }
     }
