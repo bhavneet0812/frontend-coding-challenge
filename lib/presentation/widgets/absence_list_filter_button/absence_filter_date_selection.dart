@@ -21,12 +21,36 @@ class _DateRangeSelection extends StatelessWidget {
         children: [
           ElevatedButton.icon(
             onPressed: () async {
-              final picked = await showDateRangePicker(
+              final picked = await showDialog<DateTimeRange>(
                 context: context,
-                firstDate: DateTime(2020),
-                lastDate: DateTime(2030),
-                initialDateRange: initialDateRange,
+                builder: (BuildContext context) {
+                  return Dialog(
+                    alignment: Alignment.center,
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxWidth: 400,
+                        maxHeight: 600,
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: DateRangePickerDialog(
+                          initialDateRange: initialDateRange,
+                          firstDate: DateTime(2020),
+                          lastDate: DateTime(2030),
+                          initialEntryMode: DatePickerEntryMode.calendarOnly,
+                        ),
+                      ),
+                    ),
+                  );
+                },
               );
+
+              // final picked = await showDateRangePicker(
+              //   context: context,
+              //   firstDate: DateTime(2020),
+              //   lastDate: DateTime(2030),
+              //   initialDateRange: initialDateRange,
+              // );
               if (picked != null) {
                 onDateRangeSelected(picked);
               }
