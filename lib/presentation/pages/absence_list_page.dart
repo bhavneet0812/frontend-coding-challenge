@@ -1,27 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:frontend_coding_challenge/data/repository/absence_repository.dart';
 import 'package:frontend_coding_challenge/presentation/bloc/absence_list/absence_list_bloc.dart';
+import 'package:frontend_coding_challenge/presentation/widgets/absence_list/absence_list_mobile_view.dart';
+import 'package:frontend_coding_challenge/presentation/widgets/absence_list/absence_list_tablet_view.dart';
 import 'package:frontend_coding_challenge/presentation/widgets/absence_list_filter_button/absence_list_filter_button.dart';
-import '../../widgets/absence_card.dart';
-
-part 'responsive_views/absence_list_mobile_view.dart';
-part 'responsive_views/absence_list_tablet_view.dart';
 
 class AbsenceListPage extends StatelessWidget {
   const AbsenceListPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => AbsenceListBloc(AbsenceRepository())..add(LoadAbsences()),
-      child: _Content(),
-    );
-  }
-}
-
-class _Content extends StatelessWidget {
-  const _Content();
 
   @override
   Widget build(BuildContext context) {
@@ -105,6 +90,7 @@ class _Content extends StatelessWidget {
   }
 }
 
+///
 class _Body extends StatelessWidget {
   const _Body();
 
@@ -124,9 +110,23 @@ class _Body extends StatelessWidget {
         return LayoutBuilder(
           builder: (context, constraints) {
             if (constraints.maxWidth >= 600) {
-              return _TabletView(state: state);
+              return AbsenceListTabletView(
+                absences: state.data,
+                onRefresh: () async {
+                  context.read<AbsenceListBloc>().add(
+                    LoadAbsences(filter: state.filter),
+                  );
+                },
+              );
             }
-            return _MobileView(state: state);
+            return AbsenceListMobileView(
+              absences: state.data,
+              onRefresh: () async {
+                context.read<AbsenceListBloc>().add(
+                  LoadAbsences(filter: state.filter),
+                );
+              },
+            );
           },
         );
       default:

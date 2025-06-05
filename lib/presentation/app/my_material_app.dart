@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:frontend_coding_challenge/presentation/pages/absence_list_page/absence_list_page.dart';
+import 'package:frontend_coding_challenge/core/router/router.dart';
 
 class MyMaterialApp extends StatelessWidget {
   const MyMaterialApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Absence Manager',
-      home: AbsenceListPage(),
+      routerConfig: appRouter,
       debugShowCheckedModeBanner: false,
     );
   }
