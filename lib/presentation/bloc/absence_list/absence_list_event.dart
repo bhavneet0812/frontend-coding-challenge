@@ -8,4 +8,4 @@ abstract class AbsenceListEvent extends Equatable {
 
 class LoadAbsences extends AbsenceListEvent {}
 
-class LoadNextPage extends AbsenceListEvent {}
+class LoadNextAbsencesPage extends AbsenceListEvent {}
