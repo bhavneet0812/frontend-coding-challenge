@@ -16,7 +16,7 @@ class AbsenceListPage extends StatelessWidget {
         appBar: AppBar(
           title: Row(
             children: [
-              Text('Absence List'),
+              Text('Absence Manager'),
               BlocBuilder<AbsenceListBloc, AbsenceListState>(
                 builder: (context, state) {
                   if (state is AbsenceListLoaded) {

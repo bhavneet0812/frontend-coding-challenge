@@ -96,7 +96,6 @@ void main() {
         () => [
           AbsenceListLoading(),
           predicate<AbsenceListError>((error) {
-            print(error.message);
             return error.message ==
                 'Exception: Failed to fetch absence details from the API';
           }),
