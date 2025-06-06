@@ -8,9 +8,9 @@ import 'package:frontend_coding_challenge/data/models/absence.dart';
 import 'package:frontend_coding_challenge/data/models/member.dart';
 
 class ApiService {
-  ApiService._privateConstructor();
+  const ApiService._privateConstructor();
 
-  static final ApiService instance = ApiService._privateConstructor();
+  static const ApiService instance = ApiService._privateConstructor();
 
   /// Get absences from the local JSON file.
   /// Uses [compute] to parse the JSON data in a separate isolate for better performance.

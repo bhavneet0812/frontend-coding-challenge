@@ -4,9 +4,9 @@ import 'package:frontend_coding_challenge/data/models/member.dart';
 import 'package:frontend_coding_challenge/data/services/api_service.dart';
 
 class AbsenceRepository {
-  const AbsenceRepository();
+  const AbsenceRepository({this.apiService = ApiService.instance});
 
-  ApiService get apiService => ApiService.instance;
+  final ApiService apiService;
 
   /// Fetches absence list and member details.
   /// Returns a list of tuples containing [Absence] and corresponding [Member].
