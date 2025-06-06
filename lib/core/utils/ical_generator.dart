@@ -1,5 +1,6 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:frontend_coding_challenge/core/extensions/date_extension.dart';
 import 'package:frontend_coding_challenge/data/models/absence.dart';
 import 'package:frontend_coding_challenge/data/models/member.dart';
@@ -50,18 +51,18 @@ class ICalGenerator {
   /// [absences] is a list of tuples containing Absence and Member objects.
   /// If the list is empty, the method does nothing.
   /// [position] is an optional parameter that specifies the position
-  static Future<void> exportAndShare(
+  static Future<ShareResult> exportAndShare(
     List<(Absence absence, Member member)> absences, {
     Rect? position,
   }) async {
-    if (absences.isEmpty) return;
+    if (absences.isEmpty) return ShareResult.unavailable;
 
     String title = 'Absences Calendar';
 
     if (absences.length == 1) {
       // If there is only one absence, use its details to create the title.
       final (absence, member) = absences.first;
-      title = 'Absence | ${member.name} - ${absence.type.title}';
+      title = 'Absence - ${member.name} - ${absence.type.title}';
     } else if (absences.length > 1) {
       // If there are multiple absences, determine the start and end dates
       // to create a meaningful title.
@@ -81,15 +82,35 @@ class ICalGenerator {
     }
 
     final icsContent = generate(absences);
-    final directory = await getTemporaryDirectory();
-    final file = File('${directory.path}/$title.ics');
-    await file.writeAsString(icsContent);
-    SharePlus.instance.share(
-      ShareParams(
-        title: title,
-        files: [XFile(file.path)],
-        sharePositionOrigin: position,
-      ),
-    );
+
+    if (kIsWeb) {
+      final xFile = XFile.fromData(
+        Uint8List.fromList(icsContent.codeUnits),
+        name: '$title.ics',
+      );
+
+      return SharePlus.instance.share(
+        ShareParams(
+          title: title,
+          files: [xFile],
+          sharePositionOrigin: position,
+        ),
+      );
+    } else {
+      final directory = await getTemporaryDirectory();
+      final file = File('${directory.path}/$title.ics')
+        ..create(recursive: true);
+      await file.writeAsString(icsContent);
+
+      return SharePlus.instance.share(
+        ShareParams(
+          title: title,
+          files: [
+            XFile(file.path, name: '$title.ics', mimeType: 'text/calendar'),
+          ],
+          sharePositionOrigin: position,
+        ),
+      );
+    }
   }
 }
