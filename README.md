@@ -6,11 +6,38 @@ A Flutter app to view and filter employee absences, featuring support for mobile
 
 ## 🚀 Features
 
-- 🔍 Filter absences by type, status, and date
-- 📲 Adaptive UI for mobile and tablet
-- 📤 Export absences as ICS calendar events
-- 🧪 Robust unit, widget, and integration tests
-- 🧱 Clean architecture with Repository and Bloc layers
+* 🔍 Filter absences by type, status, and date
+* 📲 Adaptive UI for mobile and tablet
+* 📤 Export absences as ICS calendar events
+* 🧪 Robust unit, widget, and integration tests
+* 🧱 Clean architecture with Repository and Bloc layers
+
+---
+
+## 📸 Screenshots
+
+```md
+![Mobile View](assets/screenshots/mobile.jpg)
+![Desktop View](assets/screenshots/desktop.jpg)
+```
+
+---
+
+## 📦 Dependencies
+
+* [go\_router](https://pub.dev/packages/go_router)
+* [flutter\_bloc](https://pub.dev/packages/flutter_bloc)
+* [equatable](https://pub.dev/packages/equatable)
+* [intl](https://pub.dev/packages/intl)
+* [cached_network_image](https://pub.dev/packages/cached_network_image)
+* [intl](https://pub.dev/packages/intl)
+* [share\_plus](https://pub.dev/packages/share_plus)
+* [path\_provider](https://pub.dev/packages/path_provider)
+
+## 📦 Dev Dependencies
+
+* [bloc\_test](https://pub.dev/packages/bloc_test)
+* [mocktail](https://pub.dev/packages/mocktail)
 
 ---
 
@@ -24,6 +51,40 @@ A Flutter app to view and filter employee absences, featuring support for mobile
 | `absence_repository_test.dart` | Validates API integration, filtering logic, and data pairing |
 | `ical_generator_test.dart`     | Ensures correct ICS format generation for calendar export    |
 | `absence_list_page_test.dart`  | Widget tests for UI rendering across multiple states         |
+
+---
+
+## 🛠️ Setup
+
+Clone the repo and install dependencies:
+
+```bash
+git clone https://github.com/bhavneet0812/frontend-coding-challenge.git
+cd frontend-coding-challenge
+flutter pub get
+```
+
+---
+
+## 💠 Running App
+
+To run:
+
+```bash
+flutter run
+```
+
+To run profile mode:
+
+```bash
+flutter run --profile
+```
+
+To run release mode:
+
+```bash
+flutter run --release
+```
 
 ---
 
@@ -43,11 +104,39 @@ flutter test test/data/absence_repository_test.dart
 
 ---
 
+## 💠 Release App Build
+
+Android Release:
+
+```bash
+flutter build apk --release
+```
+
+Android(AppBundle) Release:
+
+```bash
+flutter build appbundle
+```
+
+iOS Release:
+
+```bash
+flutter build ipa --release
+```
+
+Web Release:
+
+```bash
+flutter build web --release
+```
+
+---
+
 ## 🧼 Test Setup & Mocking
 
-- **Bloc:** Uses `bloc_test` and `mocktail` for event/state verification.
-- **Repository/API:** The `ApiService` singleton is mocked via dependency injection using a constructor.
-- **Widget Tests:** Cover various UI states like loading, error, no data, and data available scenarios.
+* **Bloc:** Uses `bloc_test` and `mocktail` for event/state verification.
+* **Repository/API:** The `ApiService` singleton is mocked via dependency injection using a constructor.
+* **Widget Tests:** Cover various UI states like loading, error, no data, and data available scenarios.
 
 ---
 
@@ -56,26 +145,31 @@ flutter test test/data/absence_repository_test.dart
 ```
 lib/
 ├── data/
+│   ├── data_models/    # Absence list filter model
+│   ├── enums/          # Absence sort type, Absence status, Absence type
 │   ├── models/         # Absence, Member models
 │   ├── services/       # API Service (local JSON based)
 │   └── repository/     # AbsenceRepository (handles filtering + pairing)
 ├── presentation/
+│   ├── app/            # My App
 │   ├── bloc/           # BLoC pattern (events, states, bloc)
 │   ├── pages/          # Screens & layouts
+│   ├── dialogs/        # Dialogs
 │   └── widgets/        # UI Components
 ├── core/
-│   └── utils/          # ICS calendar generator
+│   ├── router/         # Route Management
+│   ├── extensions/     # Extensions (Date, Generic, String)
+│   └── utils/          # ICS calendar generator and Nullable Value
+├── main.dart           # Main App
 ```
 
 ---
 
-## 🤝 Contributing
+## 📚 Learn More
 
-1. Fork the repo
-2. Create your feature branch: `git checkout -b feature/my-feature`
-3. Commit your changes: `git commit -am 'Add new feature'`
-4. Push to the branch: `git push origin feature/my-feature`
-5. Open a pull request
+* ICS File Format: [RFC 5545](https://icalendar.org/)
+* Flutter BLoC Pattern: [bloclibrary.dev](https://bloclibrary.dev/)
+* Flutter Testing Guide: [flutter.dev/docs/testing](https://flutter.dev/docs/testing)
 
 ---
 
