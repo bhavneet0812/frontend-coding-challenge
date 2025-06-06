@@ -1,13 +1,13 @@
 # 🗓️ Absence Manager App
 
-A Flutter app to view and filter employee absences, featuring support for mobile/tablet layouts, calendar event export (ICS), and a clean state management architecture using BLoC.
+A Flutter app to view and filter employee absences, featuring support for mobile/desktop layouts, calendar event export (ICS), and a clean state management architecture using BLoC.
 
 ---
 
 ## 🚀 Features
 
 * 🔍 Filter absences by type, status, and date
-* 📲 Adaptive UI for mobile and tablet
+* 📲 Adaptive UI for mobile and desktop
 * 📤 Export absences as ICS calendar events
 * 🧪 Robust unit, widget, and integration tests
 * 🧱 Clean architecture with Repository and Bloc layers
@@ -132,6 +132,26 @@ Web Release:
 ```bash
 flutter build web --release
 ```
+
+---
+
+## 🌐 Deploy to GitHub Pages
+
+Deploy the web app under `gh-pages` branch:
+
+```bash
+flutter build web --release --base-href="/frontend-coding-challenge/"
+
+# Switch to gh-pages branch or create one
+git checkout --orphan gh-pages
+rm -rf *
+cp -r build/web/* .
+git add .
+git commit -m "Deploy to GitHub Pages"
+git push origin gh-pages --force
+```
+
+Then visit: `https://bhavneet0812.github.io/frontend-coding-challenge/`
 
 ---
 
