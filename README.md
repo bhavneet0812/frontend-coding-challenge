@@ -33,7 +33,6 @@ A Flutter app to view and filter employee absences, featuring support for mobile
 * [equatable](https://pub.dev/packages/equatable)
 * [intl](https://pub.dev/packages/intl)
 * [cached_network_image](https://pub.dev/packages/cached_network_image)
-* [intl](https://pub.dev/packages/intl)
 * [share\_plus](https://pub.dev/packages/share_plus)
 * [path\_provider](https://pub.dev/packages/path_provider)
 
