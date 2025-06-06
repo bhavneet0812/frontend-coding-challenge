@@ -151,7 +151,7 @@ git commit -m "Deploy to GitHub Pages"
 git push origin gh-pages --force
 ```
 
-Then visit: `https://bhavneet0812.github.io/frontend-coding-challenge/`
+Then visit: [Live Demo](https://bhavneet0812.github.io/frontend-coding-challenge/)
 
 ---
 
