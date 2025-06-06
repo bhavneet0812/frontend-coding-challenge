@@ -17,8 +17,8 @@ A Flutter app to view and filter employee absences, featuring support for mobile
 ## 📸 Screenshots
 
 ```md
-![Mobile View](assets/screenshots/mobile.jpg)
-![Desktop View](assets/screenshots/desktop.jpg)
+![Mobile View](/assets/screenshots/mobile.jpg?raw=true)
+![Desktop View](/assets/screenshots/desktop.jpg?raw=true)
 ```
 
 ---
