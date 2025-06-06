@@ -29,21 +29,14 @@ void main() {
       crewId: 99,
     );
 
-    /// Tests for ICalGenerator.generate()
-    /// This method generates an ICS string for a list of (Absence, Member) tuples.
-    /// It formats the absence details into a valid ICS format.
-    /// The ICS format includes:
-    /// - BEGIN:VCALENDAR
-    /// - VERSION:2.0
-    /// - BEGIN:VEVENT
-    /// - SUMMARY:Absence Type - Member Name
-    /// - UID:Absence ID
-    /// - DTSTART:Start Date in UTC format
-    /// - DTEND:End Date in UTC format (next day)
-    /// - DESCRIPTION:Member's Note - Admitter's Note
-    /// - END:VEVENT
-    /// - END:VCALENDAR
+    /// ✅ Test Case: ICS content generation for single absence
     ///
+    /// Verifies that `ICalGenerator.generate()` correctly generates a valid ICS
+    /// string from a single (Absence, Member) pair. It checks that:
+    /// - Calendar start and end markers exist
+    /// - Each VEVENT section includes UID, SUMMARY, DTSTART, DTEND
+    /// - DESCRIPTION includes both member and admitter notes
+    /// - Date formatting is in UTC and end date includes one extra day
     test('generate() returns valid ICS content', () {
       final ics = ICalGenerator.generate([(absence, member)]);
 
@@ -60,9 +53,11 @@ void main() {
       expect(ics, contains('END:VCALENDAR'));
     });
 
-    /// Tests for ICalGenerator.generate() with multiple absences
-    /// This method generates ICS content for multiple (Absence, Member) tuples.
-    /// It ensures that each absence is correctly formatted in the ICS output.
+    /// ✅ Test Case: ICS content generation when notes are empty
+    ///
+    /// Verifies that `ICalGenerator.generate()` correctly omits the DESCRIPTION
+    /// field if both `memberNote` and `admitterNote` are empty. This ensures
+    /// no empty or unnecessary lines are included in the ICS file.
     test('generate() skips description if notes are empty', () {
       final absenceNoNotes = absence.copyWith(memberNote: '', admitterNote: '');
       final ics = ICalGenerator.generate([(absenceNoNotes, member)]);

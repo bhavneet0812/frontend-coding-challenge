@@ -9,7 +9,6 @@ import 'package:frontend_coding_challenge/data/repository/absence_repository.dar
 import 'package:frontend_coding_challenge/data/models/absence.dart';
 import 'package:frontend_coding_challenge/data/models/member.dart';
 
-/// A mock implementation of [AbsenceRepository] for testing purposes.
 class MockAbsenceRepository extends Mock implements AbsenceRepository {}
 
 void main() {
@@ -81,7 +80,7 @@ void main() {
   /// This test ensures the bloc emits [AbsenceListLoading] followed by [AbsenceListError]
   /// when the repository throws an exception (e.g. API failure).
   blocTest<AbsenceListBloc, AbsenceListState>(
-    'emits [Loading, Error] when repository throws an exception due to API failure',
+    'emits [Loading, Error] when repository throws an exception due to API failure, resulting in AbsenceListError state',
     build: () {
       when(
         () => mockRepository.getAbsenceDetails(
@@ -96,7 +95,11 @@ void main() {
     expect:
         () => [
           AbsenceListLoading(),
-          predicate<AbsenceListError>((error) => error.message == 'API failed'),
+          predicate<AbsenceListError>((error) {
+            print(error.message);
+            return error.message ==
+                'Exception: Failed to fetch absence details from the API';
+          }),
         ],
   );
 

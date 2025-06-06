@@ -41,9 +41,9 @@ void main() {
     crewId: 1,
   );
 
-  /// Tests for AbsenceRepository.getAbsenceDetails
-  /// This method fetches absences and matches them with members.
-  /// It returns a list of tuples containing (Absence, Member) and the total count of absences.
+  /// ✅ Test Case: Returns a list of (Absence, Member) tuples and total count.
+  /// This test verifies that the repository correctly joins absence and member data
+  /// and returns a valid list with total absence count.
   test('should return list of (Absence, Member) and totalCount', () async {
     when(
       () => mockApiService.getAbsences(
@@ -65,10 +65,9 @@ void main() {
     expect(result.$1.first.$2.name, mockMember.name);
   });
 
-  /// Tests for AbsenceRepository.getAbsenceDetails
-  /// This method should skip absences if no matching member is found.
-  /// It should return an empty list and the total count of absences.
-  /// This is important to ensure that the absence list does not contain entries without valid member data.
+  /// ❌ Test Case: Skips absences if no matching member is found.
+  /// This test ensures that if there is no member match, the absence is not included in the result.
+  /// It avoids including orphan absence records without context.
   test('should skip absence if no matching member found', () async {
     when(
       () => mockApiService.getAbsences(
@@ -81,14 +80,14 @@ void main() {
     when(() => mockApiService.getMembers()).thenAnswer((_) async => []);
 
     final result = await repository.getAbsenceDetails();
+
     expect(result.$1, isEmpty);
     expect(result.$2, 1);
   });
 
-  /// Tests for AbsenceRepository.getAbsenceDetails
-  /// This method should filter absences by status and return only those that match the provided status.
-  /// This is important to ensure that the absence list can be filtered based on specific criteria.
-  /// It should return a list of absences that match the given status.
+  /// ✅ Test Case: Filters by absence type.
+  /// This test ensures that when a filter (e.g., by vacation type) is applied,
+  /// the repository returns only the matching absences.
   test('should filter by type and match correctly', () async {
     final filter = AbsenceListFilterModel(type: AbsenceType.vacation);
 
@@ -105,6 +104,7 @@ void main() {
     ).thenAnswer((_) async => [mockMember]);
 
     final result = await repository.getAbsenceDetails(filter: filter);
+
     expect(result.$1.length, 1);
     expect(result.$1.first.$1.type, AbsenceType.vacation);
   });
