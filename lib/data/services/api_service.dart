@@ -19,7 +19,7 @@ class ApiService {
   Future<(List<Absence> absences, int totalCount)> getAbsences({
     AbsenceListFilterModel? filter,
     int skip = 0,
-    int limit = 10,
+    int? limit = 10,
   }) async {
     final data = await rootBundle.loadString('assets/json_files/absences.json');
     final jsonResult = await compute(
@@ -70,8 +70,11 @@ class ApiService {
         return 0; // Default case
       });
     }
+    final skippedAbsences = absences.skip(skip);
+    final limitedAbsences =
+        limit != null ? skippedAbsences.take(limit) : skippedAbsences;
 
-    return (absences.skip(skip).take(limit).toList(), absences.length);
+    return (limitedAbsences.toList(), absences.length);
   }
 
   /// Get members from the local JSON file.

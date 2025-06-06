@@ -37,6 +37,14 @@ class _AbsenceListFilterButtonState extends State<AbsenceListFilterButton> {
   }
 
   @override
+  void didUpdateWidget(covariant AbsenceListFilterButton oldWidget) {
+    if (oldWidget.initialFilter != widget.initialFilter) {
+      _filter = widget.initialFilter;
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return PopupMenuButton<AbsenceListFilterModel>(
       tooltip: 'Filter',

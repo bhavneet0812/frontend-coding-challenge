@@ -14,7 +14,7 @@ class AbsenceRepository {
   Future<(List<(Absence, Member)> results, int totalCount)> getAbsenceDetails({
     AbsenceListFilterModel? filter,
     int skip = 0,
-    int limit = 10,
+    int? limit,
   }) async {
     final absenceListData = await apiService.getAbsences(
       filter: filter,

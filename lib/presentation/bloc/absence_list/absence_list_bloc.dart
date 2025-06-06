@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:frontend_coding_challenge/core/utils/ical_generator.dart';
 import 'package:frontend_coding_challenge/data/data_models/absence_list_filter_model.dart';
 import 'package:frontend_coding_challenge/data/models/absence.dart';
 import 'package:frontend_coding_challenge/data/models/member.dart';
@@ -13,6 +16,7 @@ class AbsenceListBloc extends Bloc<AbsenceListEvent, AbsenceListState> {
 
   AbsenceListBloc(this.repository) : super(AbsenceListLoading()) {
     on<LoadAbsences>(_onLoadAbsences);
+    on<ShareAbsencesCalendarEvents>(_onShareAbsencesCalendarEvents);
   }
 
   Future<void> _onLoadAbsences(
@@ -40,6 +44,20 @@ class AbsenceListBloc extends Bloc<AbsenceListEvent, AbsenceListState> {
           totalCount: totalCount,
         ),
       );
+    } catch (e) {
+      emit(AbsenceListError(e.toString()));
+    }
+  }
+
+  Future<void> _onShareAbsencesCalendarEvents(
+    ShareAbsencesCalendarEvents event,
+    Emitter<AbsenceListState> emit,
+  ) async {
+    try {
+      final result = await repository.getAbsenceDetails(filter: event.filter);
+
+      final absences = result.$1;
+      ICalGenerator.exportAndShare(absences, position: event.position);
     } catch (e) {
       emit(AbsenceListError(e.toString()));
     }

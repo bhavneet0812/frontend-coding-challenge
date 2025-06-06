@@ -21,3 +21,16 @@ class LoadAbsences extends AbsenceListEvent {
   @override
   List<Object> get props => [filter, pageSize, currentData.length];
 }
+
+class ShareAbsencesCalendarEvents extends AbsenceListEvent {
+  final Rect position;
+  final AbsenceListFilterModel filter;
+
+  const ShareAbsencesCalendarEvents({
+    required this.position,
+    this.filter = const AbsenceListFilterModel(),
+  });
+
+  @override
+  List<Object> get props => [filter];
+}
